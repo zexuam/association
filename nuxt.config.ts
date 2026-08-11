@@ -6,9 +6,6 @@ export default defineNuxtConfig({
     accessToken: process.env.JWT_ACCESS_TOKEN,
     refreshToken: process.env.JWT_REFRESH_TOKEN,
   },
-  nitro: {
-    preset: "netlify"
-  },
   modules: ['@vite-pwa/nuxt', 'vuetify-nuxt-module', '@pinia/nuxt'],
   vuetify: {
     vuetifyOptions: {
