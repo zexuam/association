@@ -31,11 +31,13 @@
         :rules="[rules.email, rules.emailValid]"
       />
       <v-text-field
-        type="text"
+        :type="visible ? 'text' : 'password'"
         v-model="user.password"
         density="compact"
         variant="outlined"
         label="Enter Your Password"
+        :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+        @click:append-inner="visible = !visible"
         :rules="passwordRules"
       />
       <v-checkbox v-model="user.agree" density="compact" :rules="[rules.agree]">
@@ -70,23 +72,28 @@
         </p>
       </div>
     </v-form>
-    <v-divider>OR Login With Social</v-divider>
-    <v-btn-group class="mt-4">
-      <v-btn icon>
-        <v-icon>mdi-google</v-icon>
-      </v-btn>
-      <v-btn icon>
-        <v-icon>mdi-facebook</v-icon>
-      </v-btn>
-      <v-btn icon>
-        <v-icon>mdi-twitter</v-icon>
-      </v-btn>
-    </v-btn-group>
+
+    <template v-if="false">
+      <v-divider>OR Login With Social</v-divider>
+      <v-btn-group class="mt-4">
+        <v-btn icon>
+          <v-icon>mdi-google</v-icon>
+        </v-btn>
+        <v-btn icon>
+          <v-icon>mdi-facebook</v-icon>
+        </v-btn>
+        <v-btn icon>
+          <v-icon>mdi-twitter</v-icon>
+        </v-btn>
+      </v-btn-group>
+    </template>
   </div>
 </template>
 
 <script setup>
 import { useAuthStore } from "~/stores/auth";
+
+const visible = ref(false);
 
 const app = useAppConfig();
 const user = reactive({});

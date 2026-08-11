@@ -16,14 +16,16 @@
     >
       <thead>
         <tr>
-          <th class="text-center">{{ isLoading }}Name</th>
+          <th class="text-center">Serial</th>
+          <th class="text-center">Name</th>
           <th class="text-center">Diposit</th>
           <th class="text-center">Date</th>
           <th class="text-center">Note</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="diposit of diposits" :key="diposit._id">
+        <tr v-for="(diposit, i) of diposits" :key="diposit._id">
+          <td>{{ i + 1 }}</td>
           <td>{{ diposit.name }}</td>
           <td>
             {{
@@ -41,15 +43,6 @@
       </tbody>
       <tfoot class="text-center">
         <tr>
-          <td>Total</td>
-          <td>
-            {{
-              Number(totalAmount).toLocaleString("bn-BD", {
-                style: "currency",
-                currency: "BDT",
-              })
-            }}
-          </td>
           <td class="pe-0">
             <v-btn
               v-if="auth.isLoggedIn"
@@ -63,11 +56,22 @@
               <v-btn class="bg-error" text="Login"></v-btn>
             </NuxtLink>
           </td>
+          <td></td>
+          <td>Total</td>
           <td>
-            Total Deposit No.
-            <strong>
+            {{
+              Number(totalAmount).toLocaleString("bn-BD", {
+                style: "currency",
+                currency: "BDT",
+              })
+            }}
+          </td>
+          <td>
+            Total
+            <h3 class="ma-0" style="color: blue">
               {{ totalDeposits }}
-            </strong>
+            </h3>
+            Deposits
           </td>
         </tr>
       </tfoot>

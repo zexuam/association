@@ -26,13 +26,20 @@
       :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
       @click:append-inner="visible = !visible"
     />
-    <v-checkbox v-model="remember" density="compact" label="Remember me" />
+    <v-checkbox
+      v-model="remember"
+      density="compact"
+      label="Remember me"
+      hide-details
+    />
+
     <NuxtLink>Forgot password?</NuxtLink>
+
     <v-btn
       type="submit"
       width="100%"
       color="primary"
-      class="mb-4"
+      class="mb-4 mt-2"
       :loading="isLoading"
       style="font-size: 1.2rem; font-weight: 600"
     >
@@ -46,18 +53,20 @@
     />
     <p>
       Don't have account?
-      <NuxtLink to="/">Sign up</NuxtLink>
+      <NuxtLink to="/signup">Sign up</NuxtLink>
     </p>
 
-    <v-divider class="my-4">OR</v-divider>
+    <template v-if="false">
+      <v-divider class="my-4">OR</v-divider>
 
-    <v-btn
-      width="100%"
-      color="primary"
-      class="mt-4"
-      style="font-size: 1.2rem; font-weight: 600"
-      >Login with google</v-btn
-    >
+      <v-btn
+        width="100%"
+        color="primary"
+        class="mt-4"
+        style="font-size: 1.2rem; font-weight: 600"
+        >Login with google</v-btn
+      >
+    </template>
   </v-form>
 </template>
 
