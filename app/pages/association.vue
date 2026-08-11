@@ -60,7 +60,7 @@
               Add New
             </v-btn>
             <NuxtLink v-else to="/login" style="text-decoration: none">
-              <v-alert type="error" :title="error"></v-alert>
+              <v-btn class="bg-error" text="Login"></v-btn>
             </NuxtLink>
           </td>
           <td>
