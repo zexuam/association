@@ -1,0 +1,26 @@
+{
+  "name": "association",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@pinia/nuxt": "^1.0.1",
+    "bcryptjs": "^3.0.3",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.9.2",
+    "nuxt": "^4.5.2",
+    "pinia": "^4.0.2",
+    "vue": "^3.5.41",
+    "vue-router": "^5.2.0",
+    "vuetify-nuxt-module": "1.0.0-rc.4"
+  },
+  "devDependencies": {
+    "vuetify": "^4.1.8"
+  }
+}

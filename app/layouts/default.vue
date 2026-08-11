@@ -1,0 +1,70 @@
+<template>
+  <div>
+    <v-navigation-drawer v-model="drawer" width="200" class="pa-2">
+      <v-tabs direction="vertical" v-if="auth.isLoggedIn">
+        <v-tab to="/settings" class="link">Setting</v-tab>
+      </v-tabs>
+
+      <v-list v-if="!auth.isLoggedIn">
+        <v-list-item>
+          <v-btn width="100%" color="primary" to="/login">Login</v-btn>
+        </v-list-item>
+        <v-list-item>
+          <v-btn width="100%" color="primary" to="/signup">Signup</v-btn>
+        </v-list-item>
+      </v-list>
+      <v-list v-else prepend-gap="8px">
+        <v-list-item
+          prepend-icon="mdi-account"
+          :title="auth.user?.firstName"
+          :subtitle="auth.user?.email"
+        >
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+    <v-app-bar density="compact" scroll-behavior="hide">
+      <v-app-bar-nav-icon @click="drawer = !drawer" />
+
+      <v-spacer />
+      <v-text-field
+        variant="outlined"
+        density="compact"
+        type="search"
+        hide-details
+        label="Search Partner..."
+        prepend-inner-icon="mdi-magnify"
+        color="background"
+      />
+      <v-spacer />
+      <v-btn icon>
+        <v-icon color="red">mdi-heart</v-icon>
+      </v-btn>
+      <v-btn icon>
+        <!-- <v-img
+          v-if="false"
+          src="/profile.jpg"
+          width="40"
+          height="40"
+          rounded="pill"
+          cover
+        /> -->
+        <v-icon>mdi-account</v-icon>
+      </v-btn>
+
+      <template #extension>
+        <v-tabs align-tabs="center" grow>
+          <v-tab to="/association">Association</v-tab>
+        </v-tabs>
+      </template>
+    </v-app-bar>
+
+    <slot />
+  </div>
+</template>
+
+<script setup>
+const drawer = ref(false);
+const auth = useAuthStore();
+</script>
+
+<style scoped></style>
