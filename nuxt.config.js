@@ -22,7 +22,7 @@ export default defineNuxtConfig({
   pwa: {
     registerType: "autoUpdate",
     manifest: {
-      name: "Kasmir bazar association",
+      name: "Ekota Association",
       short_name: "Association",
       description: "Track your diposits",
       theme_color: "#121212",

@@ -1,7 +1,7 @@
 <template>
   <div
     class="bg-black rounded mx-auto pa-2"
-    style="max-width: 550px; width: 100%"
+    style="max-width: 600px; width: 100%"
   >
     <v-skeleton-loader
       v-if="isLoading"
@@ -10,12 +10,13 @@
     <v-table
       v-else
       fixed-header
-      class="text-center"
+      class="text-center w-100"
       fixed-footer
       style="max-height: 80vh; overflow-y: auto"
     >
       <thead>
         <tr>
+          <th v-if="isAdmin" class="text-center">Delete</th>
           <th class="text-center">Serial</th>
           <th class="text-center">Name</th>
           <th class="text-center">Diposit</th>
@@ -25,6 +26,21 @@
       </thead>
       <tbody>
         <tr v-for="(diposit, i) of diposits" :key="diposit._id">
+          <td v-if="isAdmin">
+            <v-tooltip location="top" text="This field will be deleted!">
+              <template #activator="{ props }">
+                <v-btn
+                  @click="deleteDeposit(diposit)"
+                  v-bind="props"
+                  variant="tonal"
+                >
+                  <v-icon color="red" style="font-size: 1.4rem"
+                    >mdi-delete</v-icon
+                  >
+                </v-btn>
+              </template>
+            </v-tooltip>
+          </td>
           <td>{{ i + 1 }}</td>
           <td>{{ diposit.name }}</td>
           <td>
@@ -43,16 +59,21 @@
       </tbody>
       <tfoot class="text-center">
         <tr>
+          <td v-if="isAdmin"></td>
           <td class="pe-0">
             <v-btn
-              v-if="auth.isLoggedIn"
+              v-if="auth.isLoggedIn && isAdmin"
               class="mx-0 bg-primary"
               size="small"
               @click="dialog = !dialog"
+              text="Add New"
+            />
+
+            <NuxtLink
+              v-else-if="!auth.isLoggedIn"
+              to="/login"
+              style="text-decoration: none"
             >
-              Add New
-            </v-btn>
-            <NuxtLink v-else to="/login" style="text-decoration: none">
               <v-btn class="bg-error" text="Login"></v-btn>
             </NuxtLink>
           </td>
@@ -92,6 +113,26 @@
   <v-dialog v-model="dialog">
     <NewDiposit @updated="addToTable" />
   </v-dialog>
+  <v-snackbar
+    v-model="timer.isTimer"
+    :loading="true"
+    :timeout="-1"
+    :title="'Name: ' + timer?.name"
+  >
+    <div>
+      <p class="my-0 text-subtitle-1">Amount: {{ timer?.amount }}</p>
+      <p class="my-0 text-body-2" style="color: red">Is being deleted</p>
+    </div>
+    <template #actions>
+      <h4 class="mx-4">{{ timer.timeLeft }}</h4>
+      <v-btn variant="elevated" color="primary" @click="stopDeletion"
+        >Stop Deletion</v-btn
+      >
+    </template>
+  </v-snackbar>
+  <v-snackbar v-model="hasDeleted.value">
+    <div>{{ hasDeleted.msg }}</div>
+  </v-snackbar>
 </template>
 
 <script setup>
@@ -103,6 +144,8 @@ const isLoading = ref(false);
 const totalAmount = ref(0);
 const totalDeposits = ref(0);
 const error = ref("");
+
+const isAdmin = ref(false);
 
 onMounted(async () => {
   isLoading.value = true;
@@ -122,7 +165,71 @@ onMounted(async () => {
   } finally {
     isLoading.value = false;
   }
+
+  try {
+    const res = await $fetch("/api/addNewbtn", { method: "GET" });
+    if (res === true) {
+      isAdmin.value = true;
+    }
+  } catch (err) {
+    isAdmin.value = false;
+  }
 });
+
+const timer = ref({
+  isTimer: false,
+  timeLeft: 10,
+});
+let interval;
+
+const hasDeleted = reactive({
+  value: false,
+  msg: "",
+});
+
+function deleteDeposit(deposit) {
+  const sure = confirm(
+    `Are you sure want to delete ${deposit.name}?\n Amount is ${deposit.amount}\n Note is '${deposit.note}'`,
+  );
+  if (sure) {
+    clearInterval(interval);
+    timer.value.isTimer = true;
+    timer.value.name = deposit.name;
+    timer.value.amount = String(deposit.amount);
+
+    interval = setInterval(async () => {
+      if (timer.value.timeLeft > 0) {
+        timer.value.timeLeft--;
+      } else {
+        clearInterval(interval);
+
+        try {
+          const res = await $fetch("/api/deleteField", {
+            method: "POST",
+            body: {
+              _id: deposit._id,
+            },
+          });
+          timer.value.isTimer = false;
+          hasDeleted.value = true;
+          hasDeleted.msg = res.message;
+        } catch (err) {
+          timer.value.isTimer = false;
+          hasDeleted.value = true;
+          hasDeleted.msg = err.data?.message;
+        } finally {
+          timer.value.timeLeft = 10;
+        }
+      }
+    }, 1000);
+  }
+}
+
+function stopDeletion() {
+  clearInterval(interval);
+  timer.value.isTimer = false;
+  timer.value.timeLeft = 10;
+}
 
 const formatDateTime = (dateString) => {
   if (!dateString) return "";

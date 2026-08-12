@@ -39,6 +39,7 @@ export default defineEventHandler(async (event) => {
       firstName: doc.firstName,
       lastName: doc.lastName,
       email: doc.email,
+      role: doc.role,
     },
     config.accessToken,
     { expiresIn: "15m" },
@@ -50,6 +51,7 @@ export default defineEventHandler(async (event) => {
       firstName: doc.firstName,
       lastName: doc.lastName,
       email: doc.email,
+      role: doc.role,
     },
     config.refreshToken,
     { expiresIn: refreshMaxAge },
@@ -70,6 +72,7 @@ export default defineEventHandler(async (event) => {
       lastName: doc.lastName,
       email: doc.email,
       att: doc.loginAttempted,
+      role: doc.role,
     },
   };
 });

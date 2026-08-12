@@ -4,7 +4,18 @@
     class="bg-black pa-2 rounded"
     @submit.prevent="submitDiposit"
   >
-    <h2 class="text-center">Update diposit</h2>
+    <h2 class="text-center">Add diposit</h2>
+    <v-select
+      :items="dipositorNames"
+      label="Select Dipositor Name"
+      v-model="diposit.name"
+      class="w-75 mx-auto"
+      density="compact"
+      :rules="rules"
+      :disabled="namesLoading"
+      :loading="namesLoading"
+    />
+
     <v-text-field
       type="number"
       hide-spin-buttons
@@ -19,17 +30,25 @@
       class="mx-auto w-75"
       v-model="diposit.date"
       density="compact"
-      label="Pick the date you diposited"
+      label="Pick the date he diposited"
       :rules="rules"
     />
     <v-text-field
       type="time"
-      label="Pick the time you diposited"
+      label="Pick the time he diposited"
       class="mx-auto w-75"
       density="compact"
       :rules="rules"
       v-model="diposit.time"
     />
+    <v-alert
+      v-if="errorMessage"
+      type="error"
+      :title="errorMessage"
+      class="mx-auto my-2 w-75"
+      closable
+    >
+    </v-alert>
     <v-btn type="submit" class="w-75 mx-auto bg-primary" :loading="isLoading">
       Submit
     </v-btn>
@@ -40,6 +59,31 @@
 const diposit = reactive({});
 
 const rules = [(v) => !!v || "the field is required"];
+
+const namesLoading = ref(false);
+const dipositorNames = ref([]);
+const errorMessage = ref("");
+
+onMounted(async () => {
+  namesLoading.value = true;
+  try {
+    const res = await $fetch("/api/memberName", {
+      method: "GET",
+    });
+    res.forEach((name) => {
+      const firstName =
+        name.firstName.charAt(0).toUpperCase() + name.firstName.slice(1);
+      const lastName =
+        name.lastName.charAt(0).toUpperCase() + name.lastName.slice(1);
+
+      dipositorNames.value.push(`${firstName}${lastName}`);
+    });
+  } catch (err) {
+    errorMessage.value = err.data?.message;
+  } finally {
+    namesLoading.value = false;
+  }
+});
 
 const form = useTemplateRef("form");
 const isLoading = ref(false);
@@ -60,6 +104,7 @@ async function submitDiposit() {
     const res = await $fetch("/api/diposit", {
       method: "POST",
       body: {
+        name: diposit.name,
         amount: parseInt(diposit.amount, 10),
         dipositDate: new Date(date),
       },

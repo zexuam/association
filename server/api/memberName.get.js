@@ -1,5 +1,5 @@
 import { authentication } from "~~/server/utils/authentication";
-import dipositSchema from "~~/server/models/dipositSchema";
+import Auth from "~~/server/models/authSchema";
 import jwt from "jsonwebtoken";
 
 export default defineEventHandler(async (event) => {
@@ -7,18 +7,19 @@ export default defineEventHandler(async (event) => {
   if (!refreshToken) {
     throw createError({
       statusCode: 401,
-      message: "Not logged In",
+      message: "Please Login First",
     });
   }
 
-  let decoded;
   const config = useRuntimeConfig();
+  let decoded;
+
   try {
     decoded = await jwt.verify(refreshToken, config.refreshToken);
-  } catch (er) {
+  } catch (err) {
     throw createError({
       statusCode: 401,
-      message: "Session Expired. Please login",
+      message: "Session Expired. Please Login",
     });
   }
 
@@ -31,26 +32,9 @@ export default defineEventHandler(async (event) => {
 
   const db = await authentication();
 
-  const Schema = await dipositSchema(db);
+  const model = await Auth(db);
 
-  const body = await readBody(event);
+  const users = await model.find({}, { firstName: 1, lastName: 1, _id: 0 });
 
-  const doc = await Schema.findOne({ name: body.name }).sort({
-    dipositTimes: -1,
-  });
-
-  let times = 1;
-
-  if (doc) {
-    times += parseInt(doc.dipositTimes, 10);
-  }
-
-  const newDoc = await Schema.create({
-    name: body.name,
-    dipositTimes: times,
-    amount: body.amount,
-    dipositDate: body.dipositDate,
-  });
-
-  return newDoc;
+  return users;
 });
