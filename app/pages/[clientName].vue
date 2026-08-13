@@ -4,11 +4,16 @@
     style="max-width: 600px; width: 100%"
   >
     <div v-if="fields.length === 0">
-      <v-skeleton-loader type="text, text, text, text, text, text" />
       <v-divider class="ma-3" />
-      <v-skeleton-loader type="text, text, text, text, text, text" />
-      <v-divider class="ma-3" />
-      <v-skeleton-loader type="text, text, text, text, text, text" />
+      <v-skeleton-loader
+        type="list-item, list-item, list-item, list-item, button"
+      />
+      <v-skeleton-loader
+        type="list-item, list-item, list-item, list-item, button"
+      />
+      <v-skeleton-loader
+        type="list-item, list-item, list-item, list-item, button"
+      />
     </div>
 
     <template v-else>
