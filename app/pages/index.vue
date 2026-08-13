@@ -64,31 +64,12 @@ onMounted(async () => {
       }
       totalClients[field.name].amount += field.amount;
     });
-    console.log(totalClients);
-
-    // console.log(xx);
   } catch (err) {
     console.log(err, err.data);
     slowNet.value = true;
     errMessage.value = err.data.statusMessage;
   }
 });
-
-// async function getAmount(name) {
-//   try {
-//     const res = await $fetch("/api/gettingAmounts", {
-//       method: "POST",
-//       body: { name },
-//     });
-
-//     totalClients[name].amount = res.amount;
-//     totalClients[name].totalDeposits = res.totalDeposits;
-//     console.log(totalClients);
-//   } catch (err) {
-//     console.log(err.data?.message);
-//     totalClients[name].error = err.data?.message;
-//   }
-// }
 </script>
 
 <style scoped></style>

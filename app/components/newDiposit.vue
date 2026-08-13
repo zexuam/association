@@ -68,23 +68,11 @@ const errorMessage = ref("");
 
 onMounted(async () => {
   namesLoading.value = true;
-  try {
-    const res = await $fetch("/api/memberName", {
-      method: "GET",
-    });
-    res.forEach((name) => {
-      const firstName =
-        name.firstName.charAt(0).toUpperCase() + name.firstName.slice(1);
-      const lastName =
-        name.lastName.charAt(0).toUpperCase() + name.lastName.slice(1);
+  const { loading, names, err } = await useNames();
 
-      depositorNames.value.push(`${firstName}${lastName}`);
-    });
-  } catch (err) {
-    errorMessage.value = err.data?.message;
-  } finally {
-    namesLoading.value = false;
-  }
+  namesLoading.value = loading;
+  depositorNames.value = names;
+  errorMessage.value = err;
 });
 
 const form = useTemplateRef("form");

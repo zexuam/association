@@ -12,7 +12,7 @@
     </div>
 
     <template v-else>
-      <v-card v-for="field in fields" :key="field._id">
+      <v-card v-for="(field, i) in fields" :key="field._id">
         <v-card-item>
           <v-card-title>
             <h2 class="my-1">{{ field.name.split(/(?=[A-Z])/).join(" ") }}</h2>
@@ -42,16 +42,13 @@
           <v-text-field
             label="Note"
             density="compact"
+            class="mt-3"
             variant="outlined"
-            class="w-50"
             v-model="field.note"
             persistent-placeholder
-          >
-            <template #append>
-              <v-btn class="bg-primary h-100">Update</v-btn>
-            </template>
-          </v-text-field>
-          <template v-if="isAdmin" #append>
+          />
+          <v-btn class="my-0 bg-primary">Update Note</v-btn>
+          <template v-if="isAdmin && i === 0" #append>
             <v-btn>
               <v-icon color="red" style="font-size: 1.3rem">mdi-delete</v-icon>
             </v-btn>
