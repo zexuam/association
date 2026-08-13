@@ -23,7 +23,7 @@ export default defineNuxtConfig({
     registerType: "autoUpdate",
     manifest: {
       name: "Ekota Association",
-      short_name: "Association",
+      short_name: "Ekota Association",
       description: "Track your diposits",
       theme_color: "#121212",
       background_color: "#121212",

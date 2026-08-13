@@ -71,6 +71,15 @@ export const useAuthStore = defineStore("auth", function () {
     }
   }
 
+  async function isAdmin() {
+    try {
+      await $fetch("/api/ifAdmin", { method: "GET" });
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
+
   return {
     accessToken,
     user,
@@ -82,5 +91,6 @@ export const useAuthStore = defineStore("auth", function () {
     signup,
     refresh,
     logout,
+    isAdmin,
   };
 });

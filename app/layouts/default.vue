@@ -4,6 +4,7 @@
       <v-tabs direction="vertical" v-if="auth.isLoggedIn">
         <v-tab to="/settings" class="link">Setting</v-tab>
         <v-tab to="/profile">Profile</v-tab>
+        <v-tab v-if="isAdmin" to="/addDeposit">Add Deposit</v-tab>
       </v-tabs>
 
       <template #append>
@@ -39,12 +40,15 @@
       />
       <v-spacer />
       <v-btn icon>
-        <v-icon color="red">mdi-heart</v-icon>
+        <v-badge :content="totalNotification" color="yellow">
+          <v-icon>mdi-bell</v-icon>
+        </v-badge>
       </v-btn>
 
       <template #extension>
         <v-tabs align-tabs="center" grow>
-          <v-tab to="/association">Association</v-tab>
+          <v-tab to="/">Home</v-tab>
+          <!-- <v-tab to="/association">Association</v-tab> -->
         </v-tabs>
       </template>
     </v-app-bar>
@@ -56,6 +60,13 @@
 <script setup>
 const drawer = ref(false);
 const auth = useAuthStore();
+
+const totalNotification = ref(0);
+const isAdmin = ref(false);
+
+onMounted(async () => {
+  isAdmin.value = await auth.isAdmin();
+});
 </script>
 
 <style scoped></style>

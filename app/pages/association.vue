@@ -33,6 +33,7 @@
                   @click="deleteDeposit(diposit)"
                   v-bind="props"
                   variant="tonal"
+                  disabled
                 >
                   <v-icon color="red" style="font-size: 1.4rem"
                     >mdi-delete</v-icon
@@ -48,6 +49,7 @@
               Number(diposit.amount).toLocaleString("bn-BD", {
                 style: "currency",
                 currency: "BDT",
+                minimumFractionDigits: 0,
               })
             }}
           </td>

@@ -2,13 +2,13 @@
   <v-form
     ref="form"
     class="bg-black pa-2 rounded"
-    @submit.prevent="submitDiposit"
+    @submit.prevent="submitDeposit"
   >
-    <h2 class="text-center">Add diposit</h2>
+    <h2 class="text-center">Add deposit</h2>
     <v-select
-      :items="dipositorNames"
-      label="Select Dipositor Name"
-      v-model="diposit.name"
+      :items="depositorNames"
+      label="Select Depositor Name"
+      v-model="deposit.name"
       class="w-75 mx-auto"
       density="compact"
       :rules="rules"
@@ -20,7 +20,7 @@
       type="number"
       hide-spin-buttons
       label="Enter Amount"
-      v-model="diposit.amount"
+      v-model="deposit.amount"
       density="compact"
       :rules="rules"
       @keydown="(v) => ['e', '+', '-'].includes(v.key)"
@@ -28,18 +28,18 @@
     />
     <v-date-input
       class="mx-auto w-75"
-      v-model="diposit.date"
+      v-model="deposit.date"
       density="compact"
-      label="Pick the date he diposited"
+      label="Pick the date he deposited"
       :rules="rules"
     />
     <v-text-field
       type="time"
-      label="Pick the time he diposited"
+      label="Pick the time he deposited"
       class="mx-auto w-75"
       density="compact"
       :rules="rules"
-      v-model="diposit.time"
+      v-model="deposit.time"
     />
     <v-alert
       v-if="errorMessage"
@@ -49,19 +49,21 @@
       closable
     >
     </v-alert>
-    <v-btn type="submit" class="w-75 mx-auto bg-primary" :loading="isLoading">
-      Submit
-    </v-btn>
+    <div class="text-center">
+      <v-btn type="submit" class="w-75 mx-auto bg-primary" :loading="isLoading">
+        Submit
+      </v-btn>
+    </div>
   </v-form>
 </template>
 
 <script setup>
-const diposit = reactive({});
+const deposit = reactive({});
 
 const rules = [(v) => !!v || "the field is required"];
 
 const namesLoading = ref(false);
-const dipositorNames = ref([]);
+const depositorNames = ref([]);
 const errorMessage = ref("");
 
 onMounted(async () => {
@@ -76,7 +78,7 @@ onMounted(async () => {
       const lastName =
         name.lastName.charAt(0).toUpperCase() + name.lastName.slice(1);
 
-      dipositorNames.value.push(`${firstName}${lastName}`);
+      depositorNames.value.push(`${firstName}${lastName}`);
     });
   } catch (err) {
     errorMessage.value = err.data?.message;
@@ -90,28 +92,28 @@ const isLoading = ref(false);
 
 const emit = defineEmits(["updated"]);
 
-async function submitDiposit() {
+async function submitDeposit() {
   const { valid } = await form.value.validate();
   if (!valid) return;
   isLoading.value = true;
 
-  const date = new Date(diposit.date);
-  const time = diposit.time.split(":");
+  const date = new Date(deposit.date);
+  const time = deposit.time.split(":");
   date.setHours(time[0]);
   date.setMinutes(time[1]);
 
   try {
-    const res = await $fetch("/api/diposit", {
+    const res = await $fetch("/api/addDeposit", {
       method: "POST",
       body: {
-        name: diposit.name,
-        amount: parseInt(diposit.amount, 10),
-        dipositDate: new Date(date),
+        name: deposit.name,
+        amount: parseInt(deposit.amount, 10),
+        depositDate: new Date(date),
       },
     });
-    emit("updated", res);
+    emit("updated", true);
   } catch (err) {
-    console.log(err);
+    emit("updated", false);
   } finally {
     isLoading.value = false;
   }
