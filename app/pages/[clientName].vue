@@ -74,7 +74,11 @@
   >
     <div>
       <p class="my-0 text-subtitle-1">Amount: {{ timer?.amount }}৳</p>
-      <p class="my-0 text-body-2" style="color: red">Is being deleted</p>
+      <p class="my-0 text-body-2" style="color: red">
+        Is being deleted
+        <br />
+        Please Wait.
+      </p>
     </div>
     <template #actions>
       <h4 class="mx-4">{{ timer.timeLeft }}</h4>
