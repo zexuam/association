@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  if (decoded.role !== "admin") {
+  if (!["admin", "moderator"].includes(decoded.role)) {
     throw createError({
       statusCode: 401,
       message: "You're not allowed to to this action",

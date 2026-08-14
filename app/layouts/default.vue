@@ -48,7 +48,6 @@
       <template #extension>
         <v-tabs align-tabs="center" grow>
           <v-tab to="/">Home</v-tab>
-          <!-- <v-tab to="/association">Association</v-tab> -->
         </v-tabs>
       </template>
     </v-app-bar>

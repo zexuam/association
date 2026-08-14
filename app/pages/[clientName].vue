@@ -18,6 +18,9 @@
 
     <template v-else>
       <v-card v-for="(field, i) in fields" :key="field._id">
+        <template #prepend>
+          <span>{{ field.dipositTimes }}. No Deposit</span>
+        </template>
         <v-card-item>
           <v-card-title>
             <h2 class="my-1">{{ field.name.split(/(?=[A-Z])/).join(" ") }}</h2>
@@ -54,7 +57,7 @@
           />
           <v-btn class="my-0 bg-primary">Update Note</v-btn>
           <template v-if="isAdmin && i === 0" #append>
-            <v-btn>
+            <v-btn @click="deleteDeposit(field)">
               <v-icon color="red" style="font-size: 1.3rem">mdi-delete</v-icon>
             </v-btn>
           </template>
@@ -63,6 +66,26 @@
     </template>
   </div>
   <SlowNet :slowNet="slowNet" :errMessage="errMessage" />
+  <v-snackbar
+    v-model="timer.isTimer"
+    :loading="true"
+    :timeout="-1"
+    :title="'Name: ' + timer?.name"
+  >
+    <div>
+      <p class="my-0 text-subtitle-1">Amount: {{ timer?.amount }}৳</p>
+      <p class="my-0 text-body-2" style="color: red">Is being deleted</p>
+    </div>
+    <template #actions>
+      <h4 class="mx-4">{{ timer.timeLeft }}</h4>
+      <v-btn variant="elevated" color="primary" @click="stopDeletion"
+        >Stop Deletion</v-btn
+      >
+    </template>
+  </v-snackbar>
+  <v-snackbar v-model="hasDeleted.value">
+    <div>{{ hasDeleted.msg }}</div>
+  </v-snackbar>
 </template>
 
 <script setup>
@@ -91,6 +114,22 @@ onMounted(async () => {
   }
   isAdmin.value = await auth.isAdmin();
 });
+
+const hasDeleted = ref({});
+const timer = ref({});
+let interval;
+
+async function deleteDeposit(field) {
+  const composable = await useDeleteDeposit(field);
+  hasDeleted.value = composable.hasDeleted;
+  timer.value = composable.timer;
+  interval = composable.interval;
+}
+function stopDeletion() {
+  clearInterval(interval);
+  timer.value.isTimer = false;
+  timer.value.timeLeft = 10;
+}
 </script>
 
 <style scoped></style>
