@@ -25,7 +25,7 @@ export default defineEventHandler(async (event) => {
   if (decoded.role !== "admin") {
     throw createError({
       statusCode: 401,
-      message: "You're not allowed to delete deposit field",
+      message: "Please Contact your ADMIN to delete this field.",
     });
   }
 
