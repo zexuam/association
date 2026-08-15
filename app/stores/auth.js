@@ -41,7 +41,7 @@ export const useAuthStore = defineStore("auth", function () {
       });
       accessToken.value = res.accessToken;
       user.value = res.user;
-      await navigateTo("/association");
+      await navigateTo("/");
     } catch (err) {
       errMsg.err = true;
       errMsg.title = "Account Creation Failed.";
@@ -65,7 +65,7 @@ export const useAuthStore = defineStore("auth", function () {
       const res = $fetch("/api/logout", { method: "POST" });
       accessToken.value = null;
       user.value = null;
-      await navigateTo("/association");
+      await navigateTo("/");
     } catch (err) {
       console.log(err);
     }

@@ -4,12 +4,12 @@
     style="max-width: 600px; width: 100%"
   >
     <div v-if="Object.keys(totalClients).length === 0">
-      <v-skeleton-loader type="list-item-three-line" />
-      <v-divider class="ma-3" />
-      <v-skeleton-loader type="list-item-three-line" />
-      <v-divider class="ma-3" />
-      <v-skeleton-loader type="list-item-three-line" />
-      <v-divider class="ma-3" />
+      <ClientOnly>
+        <template v-for="loader in 4" :key="loader">
+          <v-skeleton-loader type="list-item-three-line" />
+          <v-divider class="ma-3" />
+        </template>
+      </ClientOnly>
     </div>
     <v-list v-else>
       <template v-for="(value, client) of totalClients" :key="client">
