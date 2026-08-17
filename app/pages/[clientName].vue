@@ -14,9 +14,7 @@
 
     <template v-else>
       <v-card v-for="(field, i) in fields" :key="field._id">
-        <template #prepend>
-          <span>{{ field.dipositTimes }}. No Deposit</span>
-        </template>
+        <h4 class="ms-3 mt-2 mb-0">{{ field.dipositTimes }}. No Deposit</h4>
         <v-card-item>
           <v-card-title>
             <h2 class="my-1">{{ field.name.split(/(?=[A-Z])/).join(" ") }}</h2>
@@ -36,7 +34,15 @@
           </v-card-subtitle>
           <v-card-subtitle>
             Amount was:
-            <strong> {{ field.amount }}৳ </strong>
+            <strong>
+              {{
+                Number(field.amount).toLocaleString("bn-BD", {
+                  style: "currency",
+                  currency: "BDT",
+                  minimumFractionDigits: 0,
+                })
+              }}
+            </strong>
           </v-card-subtitle>
 
           <v-text-field

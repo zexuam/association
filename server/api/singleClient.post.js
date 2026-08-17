@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
 
   const { name } = await readBody(event);
 
-  const client = await schemas.find({ name }).sort({ dipositDate: -1 });
+  const client = await schemas.find({ name }).sort({ depositDate: -1 });
 
   if (!client) {
     throw createError({
