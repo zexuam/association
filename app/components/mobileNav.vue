@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar location="bottom" :floating="true" class="px-7">
+  <v-app-bar location="bottom" :floating="true">
     <v-tabs grow>
       <v-tab to="/" icon stacked>
         <v-icon size="x-large">mdi-home</v-icon>
