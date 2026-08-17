@@ -54,6 +54,8 @@ export default defineNuxtConfig({
     },
     workbox: {
       globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
+      skipWaiting: true,
+      clientsClaim: true,
       runtimeCaching: [
         {
           urlPattern: /^\/api\/.*/i,
@@ -63,6 +65,15 @@ export default defineNuxtConfig({
             expiration: { maxEntries: 100, maxAgeSeconds: 60 * 60 * 24 },
             cacheableResponse: { statuses: [0, 200] },
             networkTimeoutSeconds: 5,
+          },
+        },
+        {
+          urlPattern: /\/tnc\.pdf$/i,
+          handler: "NetworkFirst",
+          options: {
+            cacheName: "pdf-cache-v2",
+            networkTimeoutSeconds: 5,
+            expiration: { maxEntries: 5, maxAgeSeconds: 60 * 60 * 24 },
           },
         },
         {
