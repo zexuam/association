@@ -21,20 +21,16 @@
           <v-card-title>
             <h2 class="my-1">{{ field.name.split(/(?=[A-Z])/).join(" ") }}</h2>
           </v-card-title>
-          <v-card-subtitle class="my-1"
-            >Deposited at:
+          <v-card-subtitle class="my-1">
+            Deposited at:
             <strong>
               {{
-                Temporal.Instant.from(field.dipositDate).toLocaleString(
-                  "en-US",
-                  {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                    hour: "numeric",
-                    minute: "numeric",
-                  },
-                )
+                Temporal.Instant.from(field.depositDate)
+                  .toZonedDateTimeISO(Temporal.Now.timeZoneId())
+                  .toLocaleString("en-US", {
+                    dateStyle: "medium",
+                    timeStyle: "short",
+                  })
               }}
             </strong>
           </v-card-subtitle>

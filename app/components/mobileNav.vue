@@ -9,6 +9,10 @@
         <v-icon size="x-large">mdi-currency-bdt</v-icon>
         <span>Deposit</span>
       </v-tab>
+      <v-tab v-if="false" icon stacked to="/aboutus">
+        <v-icon size="x-large">mdi-information</v-icon>
+        <span>About Us</span>
+      </v-tab>
       <v-tab stacked icon to="/profile">
         <v-icon size="x-large">mdi-account</v-icon>
         <span>Profile</span>

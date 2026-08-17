@@ -85,18 +85,22 @@ async function submitDeposit() {
   if (!valid) return;
   isLoading.value = true;
 
-  const date = new Date(deposit.date);
   const time = deposit.time.split(":");
-  date.setHours(time[0]);
-  date.setMinutes(time[1]);
+
+  const date = deposit.date
+    .toTemporalInstant()
+    .toZonedDateTimeISO(Temporal.Now.timeZoneId())
+    .with({ hour: Number(time[0]), minute: Number(time[1]) })
+    .toInstant()
+    .toString();
 
   try {
-    const res = await $fetch("/api/addDeposit", {
+    await $fetch("/api/addDeposit", {
       method: "POST",
       body: {
         name: deposit.name,
         amount: parseInt(deposit.amount, 10),
-        depositDate: new Date(date),
+        depositDate: date,
       },
     });
     emit("updated", true);

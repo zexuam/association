@@ -56,6 +56,7 @@
           width="70%"
           class="my-2 mb-4 bg-primary"
           style="font-size: 1.2rem; font-weight: 700"
+          :loading="isLoading"
         >
           Create Account
         </v-btn>
@@ -120,13 +121,16 @@ const passwordRules = [
 
 const form = useTemplateRef("form");
 const auth = useAuthStore();
+const isLoading = ref(false);
 
 async function createAccount() {
   const { valid } = await form.value.validate();
 
   if (!valid) return;
 
+  isLoading.value = true;
   await auth.signup(user);
+  isLoading.value = false;
 }
 </script>
 

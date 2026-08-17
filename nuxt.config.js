@@ -6,6 +6,11 @@ export default defineNuxtConfig({
     accessToken: process.env.JWT_ACCESS_TOKEN,
     refreshToken: process.env.JWT_REFRESH_TOKEN,
   },
+  routeRules: {
+    "/tnc.pdf": {
+      headers: { "cache-control": "no-cache" },
+    },
+  },
   modules: ["@vite-pwa/nuxt", "vuetify-nuxt-module", "@pinia/nuxt"],
   vuetify: {
     vuetifyOptions: {

@@ -4,9 +4,9 @@
       <v-list-item to="/tnc">
         <h2 class="ma-0">
           Look our
-          <span style="text-decoration: underline; color: yellow">
+          <NuxtLink to="/TnC" style="text-decoration: underline; color: yellow">
             Terms And Conditions
-          </span>
+          </NuxtLink>
         </h2>
         <template #append>
           <v-icon size="x-large">mdi-chevron-right</v-icon>

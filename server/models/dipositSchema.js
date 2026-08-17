@@ -11,9 +11,9 @@ const diposit = new mongoose.Schema(
       type: Number,
       required: [true, "Amount is required"],
     },
-    dipositDate: {
+    depositDate: {
       type: Date,
-      default: Date.now(),
+      required: [true, "date and time is required"],
     },
     dipositTimes: {
       type: Number,

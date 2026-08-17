@@ -1,5 +1,5 @@
 export default defineAppConfig({
   seo: {
-    appName: "KAssociation",
+    appName: "স্বপ্ন পূরণ একতা সমিতি",
   },
 });

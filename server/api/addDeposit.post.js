@@ -49,7 +49,7 @@ export default defineEventHandler(async (event) => {
     name: body.name,
     dipositTimes: times,
     amount: body.amount,
-    dipositDate: body.dipositDate,
+    depositDate: body.depositDate,
   });
 
   return newDoc;
