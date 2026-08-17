@@ -61,19 +61,26 @@ export const useAuthStore = defineStore("auth", function () {
   }
 
   async function logout() {
-    try {
-      const res = $fetch("/api/logout", { method: "POST" });
-      accessToken.value = null;
-      user.value = null;
-      await navigateTo("/");
-    } catch (err) {
-      console.log(err);
+    const sure = confirm("Are you sure want to logout?");
+    if (sure) {
+      try {
+        const res = $fetch("/api/logout", { method: "POST" });
+        accessToken.value = null;
+        user.value = null;
+        await navigateTo("/");
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
 
   async function isAdmin() {
     try {
-      await $fetch("/api/ifAdmin", { method: "GET" });
+      const headers = useRequestHeaders(["cookie"]);
+      await useFetch("/api/ifAdmin", {
+        method: "GET",
+        headers,
+      });
       return true;
     } catch (err) {
       return false;

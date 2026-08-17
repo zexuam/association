@@ -3,13 +3,11 @@
     class="bg-black rounded mx-auto pa-2"
     style="max-width: 600px; width: 100%"
   >
-    <div v-if="Object.keys(totalClients).length === 0">
-      <ClientOnly>
-        <template v-for="loader in 4" :key="loader">
-          <v-skeleton-loader type="list-item-three-line" />
-          <v-divider class="ma-3" />
-        </template>
-      </ClientOnly>
+    <div v-if="mounted && loader === 0">
+      <template v-for="loader in 4" :key="loader">
+        <v-skeleton-loader type="list-item-three-line" />
+        <v-divider class="ma-3" />
+      </template>
     </div>
     <v-list v-else>
       <template v-for="(value, client) of totalClients" :key="client">
@@ -48,6 +46,11 @@
 
 <script setup>
 const totalClients = reactive({});
+const mounted = ref(false);
+const loader = computed(() => Object.keys(totalClients).length);
+onMounted(() => {
+  mounted.value = true;
+});
 
 const slowNet = ref(false);
 const errMessage = ref("");

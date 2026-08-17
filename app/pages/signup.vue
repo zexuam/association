@@ -42,9 +42,11 @@
       />
       <v-checkbox v-model="user.agree" density="compact" :rules="[rules.agree]">
         <template #label>
-          <span
-            >Agree to
-            <NuxtLink>Terms & Conditions</NuxtLink>
+          <span>
+            Agree to
+            <NuxtLink to="tnc" style="color: yellow">
+              Terms & Conditions
+            </NuxtLink>
           </span>
         </template>
       </v-checkbox>

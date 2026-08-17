@@ -12,6 +12,15 @@ export default defineNuxtConfig({
       theme: {
         defaultTheme: "dark",
       },
+      display: {
+        mobileBreakpoint: "sm",
+      },
+    },
+    moduleOptions: {
+      ssrClientHints: {
+        viewportSize: true,
+        reloadOnFirstRequest: true,
+      },
     },
   },
   app: {

@@ -3,15 +3,13 @@
     class="bg-black rounded mx-auto pa-2 d-flex flex-column ga-3"
     style="max-width: 600px; width: 100%"
   >
-    <div v-if="fields.length === 0">
-      <ClientOnly>
-        <v-skeleton-loader
-          type="list-item, list-item, list-item, list-item, button"
-          class="my-2"
-          v-for="loader in 3"
-          :key="loader"
-        />
-      </ClientOnly>
+    <div v-if="mounted && fields.length === 0">
+      <v-skeleton-loader
+        type="list-item, list-item, list-item, list-item, button"
+        class="my-2"
+        v-for="loader in 3"
+        :key="loader"
+      />
     </div>
 
     <template v-else>
@@ -100,22 +98,26 @@ const isAdmin = ref(false);
 
 const slowNet = ref(false);
 const errMessage = ref("");
+const mounted = ref(false);
 
 onMounted(async () => {
+  mounted.value = true;
   try {
+    const headers = useRequestHeaders(["cookie"]);
     const res = await $fetch("/api/singleClient", {
       method: "POST",
       body: {
         name: route.params.clientName,
       },
+      headers,
     });
     fields.value = res;
   } catch (err) {
     slowNet.value = true;
     errMessage.value = err.data.statusMessage;
   }
-  isAdmin.value = await auth.isAdmin();
 });
+isAdmin.value = auth.isAdmin();
 
 const hasDeleted = ref({});
 const timer = ref({});
