@@ -53,12 +53,18 @@
             v-model="field.note"
             persistent-placeholder
           />
-          <v-btn class="my-0 bg-primary">Update Note</v-btn>
-          <template v-if="isAdmin && i === 0" #append>
-            <v-btn @click="deleteDeposit(field)">
-              <v-icon color="red" style="font-size: 1.3rem">mdi-delete</v-icon>
+          <v-card-actions>
+            <v-btn class="my-0 bg-primary">Update Note</v-btn>
+            <v-spacer />
+            <v-btn
+              v-if="isAdmin && i === 0"
+              variant="outlined"
+              color="red"
+              @click="deleteDeposit(field)"
+            >
+              <v-icon style="font-size: 1.3rem">mdi-delete</v-icon>
             </v-btn>
-          </template>
+          </v-card-actions>
         </v-card-item>
       </v-card>
     </template>

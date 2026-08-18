@@ -1,4 +1,18 @@
 <template>
+  <v-toolbar class="pa-2">
+    <NuxtLink to="/">
+      <v-avatar size="x-large">
+        <v-img src="/ekota.png" cover />
+      </v-avatar>
+    </NuxtLink>
+    <h2 class="ms-3">
+      {{ app.seo.appName }}
+    </h2>
+    <v-spacer />
+    <v-btn icon>
+      <v-icon size="x-large" color="red"> mdi-heart </v-icon>
+    </v-btn>
+  </v-toolbar>
   <v-app-bar location="bottom" :floating="true">
     <v-tabs grow>
       <v-tab to="/" icon stacked>
@@ -30,6 +44,8 @@ const auth = useAuthStore();
 
 const isAdmin = ref(false);
 isAdmin.value = await auth.isAdmin();
+
+const app = useAppConfig();
 </script>
 
 <style scoped></style>
