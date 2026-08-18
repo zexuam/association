@@ -9,37 +9,39 @@
         <v-divider class="ma-3" />
       </template>
     </div>
-    <v-list v-else>
+    <template v-else>
       <template v-for="(value, client) of totalClients" :key="client">
-        <v-list-item class="my-2" :to="`/${client}`">
-          <v-list-item-title class="text-capitalize">
-            {{ client?.split(/(?=[A-Z])/).join(" ") }}
-          </v-list-item-title>
+        <v-list>
+          <v-list-item class="my-2" :to="`/${client}`">
+            <v-list-item-title class="text-capitalize">
+              {{ client?.split(/(?=[A-Z])/).join(" ") }}
+            </v-list-item-title>
 
-          <v-list-item-subtitle>
-            Total deposit:-
-            {{
-              Number(value.amount).toLocaleString("bn-BD", {
-                style: "currency",
-                currency: "BDT",
-                minimumFractionDigits: 0,
-              })
-            }}
-          </v-list-item-subtitle>
+            <v-list-item-subtitle>
+              Total deposit:-
+              {{
+                Number(value.amount).toLocaleString("bn-BD", {
+                  style: "currency",
+                  currency: "BDT",
+                  minimumFractionDigits: 0,
+                })
+              }}
+            </v-list-item-subtitle>
 
-          <template #append>
-            <v-tooltip text="Notify Him">
-              <template #activator="{ props }">
-                <v-icon @click="console.log('Hi')" v-bind="props">
-                  mdi-bell
-                </v-icon>
-              </template>
-            </v-tooltip>
-          </template>
-        </v-list-item>
-        <v-divider class="ma-2" />
+            <template #append>
+              <v-tooltip text="Notify Him">
+                <template #activator="{ props }">
+                  <v-icon @click="console.log('Hi')" v-bind="props">
+                    mdi-bell
+                  </v-icon>
+                </template>
+              </v-tooltip>
+            </template>
+          </v-list-item>
+        </v-list>
+        <v-divider class="my-2" :thickness="2" />
       </template>
-    </v-list>
+    </template>
   </div>
   <SlowNet :slowNet="slowNet" :errMessage="errMessage" />
 </template>
