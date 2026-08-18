@@ -4,7 +4,7 @@
     style="max-width: 600px; width: 100%"
   >
     <div v-if="mounted && loader === 0">
-      <template v-for="loader in 4" :key="loader">
+      <template v-for="loader in 7" :key="loader">
         <v-skeleton-loader type="list-item-three-line" />
         <v-divider class="ma-3" />
       </template>

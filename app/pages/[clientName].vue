@@ -7,7 +7,7 @@
       <v-skeleton-loader
         type="list-item, list-item, list-item, list-item, button"
         class="my-2"
-        v-for="loader in 3"
+        v-for="loader in 6"
         :key="loader"
       />
     </div>
