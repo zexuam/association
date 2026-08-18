@@ -5,9 +5,9 @@
         <v-img src="/ekota.png" cover />
       </v-avatar>
     </NuxtLink>
-    <h2 class="ms-3">
+    <h3 class="ms-3">
       {{ app.seo.appName }}
-    </h2>
+    </h3>
     <v-spacer />
     <v-btn icon>
       <v-icon size="x-large" color="red"> mdi-heart </v-icon>
