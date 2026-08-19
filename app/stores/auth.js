@@ -83,10 +83,11 @@ export const useAuthStore = defineStore("auth", function () {
         method: "GET",
         headers,
       });
-      console.log(res.data.value);
+      // console.log(res.data.value);
       isAdmin.value = true;
       return true;
     } catch (err) {
+      console.log(isAdmin);
       isAdmin.value = false;
       return false;
     }
