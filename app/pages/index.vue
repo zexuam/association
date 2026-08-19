@@ -11,8 +11,15 @@
     </div>
     <template v-else>
       <template v-for="(value, client) of totalClients" :key="client">
-        <v-list>
-          <v-list-item class="my-2" :to="`/${client}`">
+        <v-list
+          class="py-0 rounded d-flex align-center justify-space-around"
+          v-if="client !== 'TestingPurpose'"
+        >
+          <v-list-item
+            class="py-4 rounded"
+            style="width: 80%"
+            :to="`/${client}`"
+          >
             <v-list-item-title class="text-capitalize">
               {{ client?.split(/(?=[A-Z])/).join(" ") }}
             </v-list-item-title>
@@ -27,23 +34,34 @@
                 })
               }}
             </v-list-item-subtitle>
-
-            <template #append>
-              <v-tooltip text="Notify Him">
-                <template #activator="{ props }">
-                  <v-icon @click="console.log('Hi')" v-bind="props">
-                    mdi-bell
-                  </v-icon>
-                </template>
-              </v-tooltip>
-            </template>
           </v-list-item>
+          <v-tooltip text="Make Favorite">
+            <template #activator="{ props }">
+              <v-btn icon variant="outlined" color="pink">
+                <v-icon
+                  @click="addToFav(client, value)"
+                  v-bind="props"
+                  icon="mdi-heart"
+                />
+              </v-btn>
+            </template>
+          </v-tooltip>
         </v-list>
         <v-divider class="my-2" :thickness="2" />
       </template>
     </template>
   </div>
   <SlowNet :slowNet="slowNet" :errMessage="errMessage" />
+  <v-snackbar v-model="addedFav.value" :timeout="10000">
+    <span class="clientName">
+      <b>{{ addedFav.name.split(/(?=[A-Z])/).join(" ") }}</b>
+      Added to Favourite
+    </span>
+
+    <template #actions>
+      <v-icon @click="addedFav.value = false">mdi-close</v-icon>
+    </template>
+  </v-snackbar>
 </template>
 
 <script setup>
@@ -75,6 +93,22 @@ onMounted(async () => {
     errMessage.value = err.data.statusMessage;
   }
 });
+
+const addedFav = reactive({
+  value: false,
+  name: null,
+});
+function addToFav(client, value) {
+  const res = useLocalStorage(client, value.amount);
+  if (res.value) {
+    addedFav.value = true;
+    addedFav.name = client;
+  }
+}
 </script>
 
-<style scoped></style>
+<style scoped>
+.clientName {
+  text-transform: capitalize;
+}
+</style>

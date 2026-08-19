@@ -11,7 +11,12 @@ export default defineNuxtConfig({
       headers: { "cache-control": "no-cache" },
     },
   },
-  modules: ["@vite-pwa/nuxt", "vuetify-nuxt-module", "@pinia/nuxt"],
+  modules: [
+    "@vite-pwa/nuxt",
+    "vuetify-nuxt-module",
+    "@pinia/nuxt",
+    "@vueuse/nuxt",
+  ],
   vuetify: {
     vuetifyOptions: {
       theme: {

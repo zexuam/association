@@ -24,6 +24,8 @@
   },
   "devDependencies": {
     "@vite-pwa/nuxt": "^1.1.1",
+    "@vueuse/core": "^14.4.0",
+    "@vueuse/nuxt": "^14.4.0",
     "vuetify": "^4.1.8"
   }
 }

@@ -13,23 +13,23 @@
       <v-icon size="x-large" color="red"> mdi-heart </v-icon>
     </v-btn>
   </v-toolbar>
-  <v-app-bar location="bottom" :floating="true">
+  <v-app-bar location="bottom" :floating="true" density="compact">
     <v-tabs grow>
       <v-tab to="/" icon stacked>
         <v-icon size="x-large">mdi-home</v-icon>
         <span>Home</span>
       </v-tab>
-      <v-tab v-if="isAdmin" icon stacked to="/addDeposit">
+      <v-tab v-if="auth.isAdmin" icon stacked to="/addDeposit">
         <v-icon size="x-large">mdi-currency-bdt</v-icon>
         <span>Deposit</span>
-      </v-tab>
-      <v-tab v-if="false" icon stacked to="/aboutus">
-        <v-icon size="x-large">mdi-information</v-icon>
-        <span>About Us</span>
       </v-tab>
       <v-tab stacked icon to="/profile">
         <v-icon size="x-large">mdi-account</v-icon>
         <span>Profile</span>
+      </v-tab>
+      <v-tab v-if="false" icon stacked to="/aboutus">
+        <v-icon size="x-large">mdi-information</v-icon>
+        <span>About Us</span>
       </v-tab>
       <v-tab stacked icon to="/settings">
         <v-icon size="x-large">mdi-cog</v-icon>
@@ -41,9 +41,6 @@
 
 <script setup>
 const auth = useAuthStore();
-
-const isAdmin = ref(false);
-isAdmin.value = await auth.isAdmin();
 
 const app = useAppConfig();
 </script>

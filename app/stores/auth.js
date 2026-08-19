@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 
 export const useAuthStore = defineStore("auth", function () {
+  const isAdmin = ref(false);
   const accessToken = ref(null);
   const user = ref(null);
   const errMsg = reactive({
@@ -28,8 +29,7 @@ export const useAuthStore = defineStore("auth", function () {
       await navigateTo("/");
     } catch (err) {
       loginErrMsg.err = true;
-      loginErrMsg.title = err.data?.statusMessage;
-      console.log(err.data);
+      loginErrMsg.title = err.data?.message;
     }
   }
 
@@ -74,20 +74,26 @@ export const useAuthStore = defineStore("auth", function () {
     }
   }
 
-  async function isAdmin() {
+  async function ifAdmin() {
     try {
-      const headers = useRequestHeaders(["cookie"]);
-      await useFetch("/api/ifAdmin", {
+      const headers = import.meta.server
+        ? useRequestHeaders(["cookie"])
+        : undefined;
+      const res = await $fetch("/api/ifAdmin", {
         method: "GET",
         headers,
       });
+      console.log(res.data.value);
+      isAdmin.value = true;
       return true;
     } catch (err) {
+      isAdmin.value = false;
       return false;
     }
   }
 
   return {
+    isAdmin,
     accessToken,
     user,
     fullName,
@@ -98,6 +104,6 @@ export const useAuthStore = defineStore("auth", function () {
     signup,
     refresh,
     logout,
-    isAdmin,
+    ifAdmin,
   };
 });

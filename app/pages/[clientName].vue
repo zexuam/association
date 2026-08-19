@@ -57,7 +57,7 @@
             <v-btn class="my-0 bg-primary">Update Note</v-btn>
             <v-spacer />
             <v-btn
-              v-if="isAdmin && i === 0"
+              v-if="auth.isAdmin && i === 0"
               variant="outlined"
               color="red"
               @click="deleteDeposit(field)"
@@ -102,7 +102,6 @@ const route = useRoute();
 const fields = ref([]);
 
 const auth = useAuthStore();
-const isAdmin = ref(false);
 
 const slowNet = ref(false);
 const errMessage = ref("");
@@ -125,7 +124,6 @@ onMounted(async () => {
     errMessage.value = err.data.statusMessage;
   }
 });
-isAdmin.value = auth.isAdmin();
 
 const hasDeleted = ref({});
 const timer = ref({});

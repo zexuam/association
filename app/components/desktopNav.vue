@@ -4,7 +4,7 @@
       <v-tabs direction="vertical" v-if="auth.isLoggedIn">
         <v-tab to="/settings" class="link">Setting</v-tab>
         <v-tab to="/profile">Profile</v-tab>
-        <v-tab v-if="isAdmin" to="/addDeposit">Add Deposit</v-tab>
+        <v-tab v-if="auth.isAdmin" to="/addDeposit">Add Deposit</v-tab>
       </v-tabs>
 
       <template #append>
@@ -60,9 +60,6 @@ const drawer = ref(false);
 const auth = useAuthStore();
 
 const totalNotification = ref(0);
-
-const isAdmin = ref(false);
-isAdmin.value = await auth.isAdmin();
 </script>
 
 <style scoped></style>
